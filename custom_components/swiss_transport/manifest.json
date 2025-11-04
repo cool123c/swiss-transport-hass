@@ -5,6 +5,7 @@
   "documentation": "https://github.com/yourname/swiss-transport-hass",
   "requirements": [],
   "dependencies": [],
+  "config_flow": true,
   "codeowners": ["@yourname"],
   "iot_class": "cloud_polling"
 }
