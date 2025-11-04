@@ -20,12 +20,23 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.data.setdefault(DOMAIN, {})
 
     # forward to configured platforms
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    # Support multiple HA versions: prefer async_forward_entry_setups if available,
+    # otherwise fall back to older async_forward_entry_setup via hass.async_create_task
+    if hasattr(hass.config_entries, "async_forward_entry_setups"):
+        await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    else:
+        # older HA
+        hass.async_create_task(
+            hass.config_entries.async_forward_entry_setup(entry, "sensor")
+        )
 
     return True
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
-    unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
-    return unload_ok
+    # Unload platforms (support new and old APIs)
+    if hasattr(hass.config_entries, "async_unload_platforms"):
+        return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    # older API
+    return await hass.config_entries.async_forward_entry_unload(entry, "sensor")
