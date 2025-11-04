@@ -1,0 +1,7 @@
+{
+  "name": "Swiss Transport",
+  "content": "integration",
+  "homepage": "https://github.com/yourname/swiss-transport-hass",
+  "documentation": "https://github.com/yourname/swiss-transport-hass/blob/main/README.md",
+  "versions": {"custom": "1.0.0"}
+}

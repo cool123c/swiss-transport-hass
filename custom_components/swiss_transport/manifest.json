@@ -1,0 +1,10 @@
+{
+  "domain": "swiss_transport",
+  "name": "Swiss Transport",
+  "version": "1.0.0",
+  "documentation": "https://github.com/yourname/swiss-transport-hass",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": ["@yourname"],
+  "iot_class": "cloud_polling"
+}
