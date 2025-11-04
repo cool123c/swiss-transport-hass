@@ -89,4 +89,31 @@ class SwissTransportSensor(CoordinatorEntity, SensorEntity):
         """Return additional attributes with upcoming departures."""
         data = self.coordinator.data or {}
         departures = data.get("departures") or []
-        return {"station": data.get("station"), "departures": departures}
+        # compute an additional numeric minutes and human readable string for the next departure
+        next_minutes = None
+        next_text = None
+        if departures:
+            dt_str = departures[0].get("stop")
+            if dt_str:
+                try:
+                    dt = datetime.fromisoformat(dt_str)
+                    if dt.tzinfo is None:
+                        dt = dt.replace(tzinfo=timezone.utc)
+                    now = datetime.now(timezone.utc)
+                    mins = int((dt - now).total_seconds() / 60)
+                    next_minutes = mins
+                    if mins <= 0:
+                        next_text = "now"
+                    elif mins < 60:
+                        next_text = f"in {mins} min"
+                    else:
+                        next_text = dt.isoformat()
+                except Exception:
+                    next_text = dt_str
+
+        return {
+            "station": data.get("station"),
+            "departures": departures,
+            "minutes": next_minutes,
+            "minutes_text": next_text,
+        }
