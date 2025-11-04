@@ -34,13 +34,32 @@ class SwissTransportSensor(CoordinatorEntity, SensorEntity):
     """Sensor representing next departures for a station."""
 
     _attr_should_poll = False
+    _attr_native_unit_of_measurement = "min"
+    try:
+        from homeassistant.components.sensor import SensorStateClass
+
+        _attr_state_class = SensorStateClass.MEASUREMENT
+    except Exception:
+        # older HA may not have SensorStateClass
+        _attr_state_class = None
 
     def __init__(self, coordinator: SwissTransportCoordinator, entry: ConfigEntry, name: str | None = None) -> None:
         super().__init__(coordinator)
         self.coordinator = coordinator
         self.entry = entry
         self._attr_name = name or DEFAULT_NAME
-        self._attr_unique_id = entry.entry_id
+        # prefer stable unique_id created in config flow, fall back to entry_id
+        self._attr_unique_id = entry.unique_id or entry.entry_id
+
+        # Device info so the sensor is grouped under a device in the UI
+        try:
+            self._attr_device_info = {
+                "identifiers": {(DOMAIN, self._attr_unique_id)},
+                "name": self._attr_name,
+                "manufacturer": "Swiss Transport",
+            }
+        except Exception:
+            self._attr_device_info = None
 
     @property
     def native_value(self) -> Any:
