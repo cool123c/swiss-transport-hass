@@ -56,6 +56,8 @@ class SwissTransportCoordinator(DataUpdateCoordinator):
                 "to": item.get("to"),
                 "stop": item.get("stop", {}).get("departure"),
                 "platform": item.get("stop", {}).get("platform"),
+                # include delay in minutes if present (API provides stop.delay)
+                "delay": item.get("stop", {}).get("delay"),
             }
             departures.append(departure)
 
