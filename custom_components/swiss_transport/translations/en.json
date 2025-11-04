@@ -1,0 +1,29 @@
+{
+  "title": "Swiss Transport",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add Swiss Transport station",
+        "description": "Enter the station name to search for.",
+        "data": {
+          "station": { "name": "Station" },
+          "limit": { "name": "Number of upcoming departures to fetch" }
+        }
+      },
+      "select": {
+        "title": "Select station",
+        "description": "Multiple stations found for {query}. Select the correct one.",
+        "data": {
+          "station_select": { "name": "Station" }
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to transport.opendata.ch.",
+      "not_found": "No stations found for the provided query."
+    }
+  },
+  "options": {
+    "title": "Swiss Transport options"
+  }
+}

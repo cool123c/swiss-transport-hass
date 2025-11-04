@@ -1,0 +1,29 @@
+{
+  "title": "Swiss Transport",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Swiss Transport Station hinzufügen",
+        "description": "Gib den Namen der Station ein, nach der gesucht werden soll.",
+        "data": {
+          "station": { "name": "Station" },
+          "limit": { "name": "Anzahl an kommenden Verbindungen" }
+        }
+      },
+      "select": {
+        "title": "Station auswählen",
+        "description": "Mehrere Stationen für {query} gefunden. Wähle die richtige aus.",
+        "data": {
+          "station_select": { "name": "Station" }
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zu transport.opendata.ch fehlgeschlagen.",
+      "not_found": "Für die Suche wurden keine Stationen gefunden."
+    }
+  },
+  "options": {
+    "title": "Swiss Transport Optionen"
+  }
+}
